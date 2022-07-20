@@ -11,7 +11,8 @@ import os
 pipeline = rs.pipeline()
 config = rs.config()
 imagePath = '/home/russapat/realsense_capture_ws/src/rs_capture/src/image'
-
+imageQuantity = 0
+imageLimit = 10
 # Get device product line for setting a supporting resolution
 pipeline_wrapper = rs.pipeline_wrapper(pipeline)
 pipeline_profile = config.resolve(pipeline_wrapper)
@@ -37,6 +38,8 @@ pipeline.start(config)
 cap = cv2.VideoCapture(0)
 bridge = CvBridge()
 
+
+starttime = 0
 try:
     while True:
 
@@ -61,6 +64,7 @@ try:
         frames = align.process(frames)
         aligned_depth_frame = frames.get_depth_frame()
         
+        depth = np.asanyarray(aligned_depth_frame.get_data())
         # Apply color on depth image
         colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data())
         
@@ -74,21 +78,23 @@ try:
         else:
             images = np.hstack((color_image, colorized_depth))                                  # depth_colormap is not align
         
-        # print(color_image)
+            
+        # print(images.shape)
+        # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+        # cv2.imshow('RealSense', images)
+        # cv2.imshow('depth', depth)
+        # cv2.waitKey(1)
+        # # save image 
+        currenttime = time.time()
+        if currenttime - starttime >= 1 and imageQuantity < imageLimit:
+            # y = ("img_{}.jpg".format(imageQuantity))
+            cv2.imwrite(os.path.join(imagePath,"img_{}.jpg".format(imageQuantity)),color_image)
+            imageQuantity = imageQuantity+1 
+            starttime = currenttime
+            print(currenttime)
+            print(imageQuantity)
+            
         
-        cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', images)
-        cv2.waitKey(1)
-        for i in range(10):
-            y = ("img_{}.png".format(i))
-            cv2.imwrite(os.path.join(imagePath,y),color_image)
-            print(y)
-        
-        
-        
-        
-        
-         
 finally:
 
     # Stop streaming
