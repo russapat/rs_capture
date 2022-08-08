@@ -11,8 +11,9 @@ import os
 pipeline = rs.pipeline()
 config = rs.config()
 imagePath = '/home/russapat/realsense_capture_ws/src/rs_capture/src/image'
+depthPath = '/home/russapat/realsense_capture_ws/src/rs_capture/src/depth'
 imageQuantity = 0
-imageLimit = 10
+
 # Get device product line for setting a supporting resolution
 pipeline_wrapper = rs.pipeline_wrapper(pipeline)
 pipeline_profile = config.resolve(pipeline_wrapper)
@@ -81,14 +82,16 @@ try:
             
         # print(images.shape)
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        # cv2.imshow('RealSense', images)
-        # cv2.imshow('depth', depth)
-        # cv2.waitKey(1)
+        cv2.imshow('RealSense', images)
+        cv2.imshow('depth', depth)
+        cv2.waitKey(1)
         # # save image 
+        imageLimit = 500
         currenttime = time.time()
-        if currenttime - starttime >= 1 and imageQuantity < imageLimit:
+        if currenttime - starttime >= 0.5 and imageQuantity < imageLimit:
             # y = ("img_{}.jpg".format(imageQuantity))
             cv2.imwrite(os.path.join(imagePath,"img_{}.jpg".format(imageQuantity)),color_image)
+            cv2.imwrite(os.path.join(depthPath,"depth_{}.png".format(imageQuantity)),depth)
             imageQuantity = imageQuantity+1 
             starttime = currenttime
             print(currenttime)
