@@ -13,7 +13,6 @@ from message_filters import Subscriber
 import message_filters
 import os
 
-
 # starttime = 0
 class RecieveImage(object):
     def __init__(self):
@@ -32,7 +31,7 @@ class RecieveImage(object):
         self.depth_sub = Subscriber('/camera/aligned_depth_to_color/image_raw',Image)
         self.TimeSynchronizer = message_filters.ApproximateTimeSynchronizer([self.image_sub,self.depth_sub],queue_size=10,slop=0.5)
         self.TimeSynchronizer.registerCallback(self.callback)
-        self.timer = rospy.Timer(rospy.Duration(1), self.timer_callback)
+        self.timer = rospy.Timer(rospy.Duration(1), self.timer_callback)   #Change frequency here
         
    
     def callback(self, msg_img, msg_depth):
