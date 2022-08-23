@@ -1,14 +1,10 @@
 #! /usr/bin/python3
 
-from distutils.log import error
-from gc import callbacks
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Header
 import cv2
 import rospy
-import time
-import numpy
 from message_filters import Subscriber 
 import message_filters
 import os
