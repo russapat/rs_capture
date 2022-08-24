@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from importlib.resources import path
+from tkinter import N
 from tokenize import Number
 from tracemalloc import start
 # import rosbag
@@ -22,7 +23,7 @@ class data2rosbag():
         self.subscriber = rospy.Subscriber('/joy',Joy,self.joy_callback)
         self.homeDir = os.getenv('HOME')
         self.cameraInfo = {'RGB1': None, 'RGB2': None, 'RGB3': None}
-        self.savePath = {"Camera_1_RGBPath": self.homeDir + "/Cam1","Camera_2_RGBPath": self.homeDir + "/Cam2",
+        self.savePath = {"Camera_1_RGBPath": self.homeDir + "/Cam1", "Camera_2_RGBPath": self.homeDir + "/Cam2",
         "Camera_3_RGBPath": self.homeDir + "/Cam3" } # ---> edit folder name here
         self.subscriber_rgb = {"Camera_1_RGBSub": Subscriber('/camera1/color/image_raw',Image), "Camera_2_RBGSub": Subscriber('/camera2/color/image_raw',Image),\
             "Camera_3_RGBSub": Subscriber('/camera3/color/image_raw',Image)} 
