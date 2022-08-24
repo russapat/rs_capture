@@ -50,18 +50,21 @@ class data2rosbag():
             self.ButtoSstate = 0
         print(joy_data)
 
-    # def start(self):
-    #     if not (os.path.exists(self.savePath['Camera_1_RGBPath'])) or \
-    #         not (os.path.exists(self.savePath['Camera_2_RGBPath'])) or not (os.path.exists(self.savePath['Camera_3_RGBPath'])):
-    #         os.mkdir()
+    def start(self):
+        if not (os.path.exists(self.savePath['Camera_1_RGBPath'])) or \
+            not (os.path.exists(self.savePath['Camera_2_RGBPath'])) or not (os.path.exists(self.savePath['Camera_3_RGBPath'])):
+
+            os.mkdir(self.savePath['Camera_1_RGBPath'])
+            os.mkdir(self.savePath['Camera_2_RGBPath'])
+            os.mkdir(self.savePath['Camera_3_RGBPath'])
         # while not rospy.is_shutdown():
-            # rospy.loginfo('funtion start')
-            # self.loop_rate.sleep()
+        #     rospy.loginfo('funtion start')
+        #     self.loop_rate.sleep()
         # rospy.spin()
 
 if __name__ == '__main__':
     rospy.init_node('data2rosbag')
     mynode = data2rosbag()
-    # mynode.start()
+    mynode.start()
     rospy.spin()
 

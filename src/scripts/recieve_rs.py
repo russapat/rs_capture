@@ -35,7 +35,7 @@ class RecieveImage(object):
         self.image = self.br.imgmsg_to_cv2(msg_img, desired_encoding="bgr8")
         self.depth = self.br.imgmsg_to_cv2(msg_depth, desired_encoding="passthrough")
         
-    def timer_callback(self, get_timer):
+    def timer_callback(self, event):
         rospy.loginfo('callback access')
         get_timer = rospy.Time.now()
         self.imageQuantity += 1
