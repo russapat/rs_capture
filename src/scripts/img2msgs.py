@@ -6,7 +6,6 @@ from cv_bridge import CvBridge, CvBridgeError
 import rospy
 import cv2
 import os
-import message_filters
 
 class img2msgs():
     def __init__(self):
@@ -15,13 +14,13 @@ class img2msgs():
         self.count = 1
         self.readImg = None
         self.readDepth = None
-        self.imgPublisher = rospy.Publisher('/camera1/color/image_raw', Image, queue_size=1)
+        self.imgPublisher = rospy.Publisher('/camera1/color/image_raw', Image, headers={'stamp': rospy.Time.now()}, queue_size=1)
         self.depthPublisher = rospy.Publisher('/camera1/depth/image_raw', Image, queue_size=1)
         self.imgMsgs = None
         self.depthMsgs = None
     def main(self):
         imgFile = 'img_{}.jpg'.format(self.count)
-        depthFile = 'depth_{}.png'.format(self.count)                   #need to change png to jpg
+        depthFile = 'depth_{}.png'.format(self.count)                                           #need to change png to jpg
 
         imgpath = os.path.join(self.imgPathFolder, imgFile)                                     #join image file directory with folder directory 
         depthPath = os.path.join(self.depthPathFolder, depthFile)                               #join depth file directory with folder directory
@@ -35,6 +34,7 @@ class img2msgs():
         imgmsg = self.imgMsgs
         imgmsg.header.stamp = rospy.Time.now()
         imgmsg.header.frame_id = 'Camera1 Color Image Number {}'.format(self.count)
+
         depthmsg = self.depthMsgs
         depthmsg.header.stamp = rospy.Time.now()
         depthmsg.header.frame_id = 'Camera1 Depth Image Number {}'.format(self.count)
